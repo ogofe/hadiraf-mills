@@ -1,0 +1,141 @@
+{% extends 'work/base.html' %}
+
+{% block extra_head %}
+<style>
+  .add-overlay{
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+  }
+
+  .add-overlay .card-body{
+    z-index: 2005 !important;
+    background: white;
+    margin: auto;
+    margin-top: 6rem;
+  }
+
+</style>
+
+{% endblock extra_head %}
+
+{% block content %}
+<div class="p-2">
+    <a href="{% url 'work:production' %}" class="btn btn-dark"> <i class="fas fa-angle-left"></i> Back </a>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        
+      <div class="invoice p-3 mb-3">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <h4>
+              <i class="fas fa-globe"></i> {{ org_name }}
+              <br>
+              <small class="">Date: {{ cycle.date_of_production }} </small>
+              <br>
+              <small class="">Time: {{ cycle.time_of_production }} </small>
+            </h4>
+          </div>
+        </div>
+
+        <h5 class="text-left mt-3 text-muted lead"> Used Resources </h5>
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <table class="table table-striped">
+              {% if cycle.ingredients.all %}
+              <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  {% for item in cycle.ingredients.all %}
+                  <tr>
+                    <td> {{ forloop.counter }} </td>
+                    <td> {{ item.resource.name }} </td>
+                    <td> {{ item.quantity }} {{ item.resource.unit }}s </td>
+                  </tr>
+                  {% endfor %}
+
+              </tbody>
+            </table>
+            {% else %}
+              <tr>
+                No resources were used!
+              </tr>
+            {% endif %}
+          </div>
+        </div>
+
+
+        <div class="row">
+          <!-- accepted payments column -->
+          <div class="col-6">
+          
+          </div>
+
+          <div class="col-6">
+            <p class="lead">Production Cycle for : {{ cycle.date_of_production }}
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Product In Production </th>
+                  <td> <span class=""> {{ cycle.product.name }} </span> </td>
+                </tr>
+
+                <tr>
+                  <th>Production Progress</th>
+                  <td> <span class="badge badge-primary"> Running </span> </td>
+                </tr>
+
+                <tr>
+                  <th>Total Output:</th>
+                  {% if cycle.output %}
+                    <td>{{ cycle.output }}  {{ cycle.product.measurement }}s</td>
+                  {% else %}
+                    <td>{{ cycle.output }} <button class="btn btn-danger btn-sm font-weight-bold"
+                      onclick="$('.add-overlay').removeClass('d-none')"> Log Output </button> </td>
+                  {% endif %}
+                </tr>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>  
+    </div>
+</div>
+
+<div class="add-overlay d-none">
+  <div class="card-body shadow rounded" style="max-width: 350px">
+    <form method="post" action="{% url 'work:set-output' cycle.production_id %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="small"> How many {{ cycle.product.measurement }}s of {{ cycle.product.name }} were produced? </label>
+        <input class="form-control" type="number" name="qty">
+      </div>
+      <button type="submit" class="btn btn-sm btn-info">Save</button>
+      <button onclick="$('.add-overlay').addClass('d-none')" type="button" class="btn btn-sm btn-warning ml-4">Cancel</button>
+    </form>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-production').classList.add('active')
+</script>
+{% endblock active_nav %}

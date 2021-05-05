@@ -1,0 +1,70 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadiraf Farms | Staff Login </title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+    <style>
+        body{
+            background-color: #aecaae; 
+            font-family:  Verdana, Geneva, sans-serif;
+        }
+        #form-wrapper{
+            margin-top: 6rem;
+            max-width: 400px;
+            background: #88a08c;
+            padding: 20px;
+        }
+
+        .submit{
+            background: #add2b6;
+            color: white;
+            width: 50%;
+            font-weight: bold;
+        }
+
+        label {
+            text-align: center;
+            width: 100%;
+            font-size: smaller;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="form-wrapper" class="card-body border rounded-0 ml-auto mr-auto">
+        
+        <div class="p-2 " style="background: #fff1f14d;">
+            <h5 class="font-weight-bolder p-1 text-center" style="color: darkolivegreen;"> Hadiraf Farms Login </h5>
+        </div>
+
+        <form method="post" class="p-2 mt-2">
+            {% csrf_token %}
+
+            <div id="" class="form-group">
+                <label> Staff ID / Username </label>
+                <input name="username" type="text" class="form-control rounded-0" />
+            </div>
+
+            <div id="" class="form-group">
+                <label> Your Password </label>
+                <input name="password" type="password" class="form-control rounded-0" />
+            </div>
+
+            <button class="rounded-0 btn submit pl-4 pr-4">
+                Login
+            </button>
+        </form>
+
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="text-danger text-center"> {{ msg }} </p>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+    
+</body>
+</html>

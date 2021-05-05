@@ -1,0 +1,83 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">    
+{% endblock %}
+
+
+{% block content %}
+
+<div class="p-2">
+    <a href="{% url 'work:add-production' %}" class="btn btn-dark"> <i class="fas fa-plus"></i> Add Production Record </a>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+        <h3 class="card-title">Production Records</h3>
+
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Entry Date</th>
+                <th>Entry Time</th>
+                <th>Ouput</th>
+                <th>Used Resources</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for cycle in cycles %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'work:production-view' cycle.production_id %}">
+                                {{ cycle.production_id }}
+                            </a>
+                        </td>
+                        <td> {{ cycle.product.name }} </td>
+                        <td> {{ cycle.date_of_production }} </td>
+                        <td> {{ cycle.date_of_production }} </td>
+                        <td> {{ cycle.output|default:"Not Available" }} </td>
+                        <td> {{ cycle.used_resources_to_string|default:"None" }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+  <script src="{% static 'js/models.js' %}"></script>
+{% endblock extra_scripts %}
+
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-production').classList.add('active')
+</script>
+{% endblock active_nav %}

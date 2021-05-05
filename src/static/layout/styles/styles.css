@@ -1,0 +1,102 @@
+.small{
+    font-size: 9pt !important;
+}
+
+.d-none{
+    display: none !important;
+}
+
+.close{
+    position: absolute;
+    top: 10px;
+    opacity: .5;
+    right: 5px;
+    padding: .3rem .5rem;
+    font-weight: 900;
+    background-color: transparent !important;
+    border: 0;
+    cursor: pointer;
+    font-size: 13pt;
+}
+
+.close:hover{
+    opacity: 1;
+    /* color: ; */
+}
+
+.modal{
+    padding: 1rem;
+    background-color: white;
+    color: black;
+    border: 0;
+    border-radius: 5px;
+    animation: fadeInDrop .4s forwards;
+    width: 300px;
+    position: fixed;
+    z-index: 2000;
+    box-shadow: 0 0 10px rgba(68, 68, 68, 0.74);
+    top: 10%;
+}
+
+@media (min-width: 300px){
+    .modal{
+        left: 2%;
+    }
+}
+
+@media (min-width: 350px){
+    .modal{
+        left: 6%;
+    }
+}
+
+@media (min-width: 480px){
+    .modal{
+        left: 10%;
+    }
+}
+
+
+@media (min-width: 600px){
+    .modal{
+        left: 25%;
+    }
+}
+
+
+@media (min-width: 750px){
+    .modal{
+        left: 35%;
+    }
+}
+
+@keyframes fadeInDrop{
+    from{
+        opacity: 0;
+        transform: translateY(-10rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin{
+    from{
+        transform: rotate(-360deg);
+        /* rotate: 360deg; */
+    }
+    to{
+        /* rotate: -360deg; */
+        transform: rotate(360deg);
+    }
+}

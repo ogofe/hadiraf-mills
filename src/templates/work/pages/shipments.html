@@ -1,0 +1,54 @@
+{% extends 'work/base.html' %}
+
+
+{% block content %}
+<div class="p-2">
+    <a class="btn btn-dark" href="{% url 'work:add-shipment' %}">
+    <i class="nav-icon fas fa-plus"></i> Add Shipment Record </a>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> Shipments History </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date Received</th>
+                <th>Time Received</th>
+                <th>Items Received</th>
+            </tr>
+            </thead>
+
+            <tbody style="min-height: 200px !important;">
+            	{% for shipment in shipments %}
+	                <tr>
+	                    <td> <a href="{% url 'work:shipment-view' shipment.shipment_id %}"> {{ shipment.shipment_id }} </a> </td>
+	                    <td> {{ shipment.date_received }} </td>
+	                    <td> {{ shipment.time_received }} </td>
+	                    <td> <small> {{ shipment.items_to_string }} </small> </td>
+	                </tr>
+            	{% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-shipments').classList.add('active')
+</script>
+{% endblock active_nav %}

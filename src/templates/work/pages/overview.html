@@ -1,0 +1,233 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+            <div class="info-box-content">
+            <span class="info-box-text">Production Cycle</span>
+            <span class="info-box-number">
+                2
+            </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-boxes"></i></span>
+            <div class="info-box-content">
+            <span class="info-box-text"> Products </span>
+            <span class="info-box-number"> 4 </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-truck"></i></span>
+
+            <div class="info-box-content">
+            <span class="info-box-text"> Shipments </span>
+            <span class="info-box-number"> 12 </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users "></i></span>
+
+            <div class="info-box-content">
+            <span class="info-box-text"> Staff </span>
+            <span class="info-box-number"> 5 </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+        
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title">Product Sales</h3>
+              <a href="#" class="btn btn-sm btn-tool">
+                <i class="fas fa-download"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex">
+              <p class="d-flex flex-column">
+                <span class="text-bold text-lg">₦185,230.00</span>
+                <span>Sales Over Time</span>
+              </p>
+              <p class="ml-auto d-flex flex-column text-right">
+                <span class="text-success">
+                  <i class="fas fa-arrow-up"></i> 35.1%
+                </span>
+                <span class="text-muted">Since last month</span>
+              </p>
+            </div>
+            <!-- /.d-flex -->
+
+            <div class="position-relative mb-4">
+              <canvas id="sales-chart" height="200"></canvas>
+            </div>
+
+            <div class="d-flex flex-row justify-content-end">
+              <span class="mr-2">
+                <i class="fas fa-square text-primary"></i> Online Sales
+              </span>
+
+              <span>
+                <i class="fas fa-square text-gray"></i> Offline Sales
+              </span>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+          
+          <div class="card-header border-0">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title">Production Output</h3>
+              <a href="#" class="btn btn-sm btn-tool">
+                <i class="fas fa-download"></i>
+              </a>
+            </div>
+          </div>
+
+        <div class="card-body">
+            <div class="d-flex">
+              <p class="d-flex flex-column">
+                <span class="text-bold text-lg">8,230</span>
+                <span>Items Produced</span>
+              </p>
+              <p class="ml-auto d-flex flex-column text-right">
+                <span class="text-success">
+                  <i class="fas fa-arrow-up"></i> 33.1%
+                </span>
+                <span class="text-muted">Increase since last month</span>
+              </p>
+            </div>
+            <!-- /.d-flex -->
+
+            <div class="position-relative mb-4">
+              <canvas id="production-chart" height="200"></canvas>
+            </div>
+
+            <div class="d-flex flex-row justify-content-end">
+              <span class="mr-2">
+                <i class="fas fa-square text-primary"></i> This week
+              </span>
+
+              <span>
+                <i class="fas fa-square text-gray"></i> Last week
+              </span>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block active_nav %}
+    <script>
+        document.getElementById('nav-dashboard').classList.add('active')
+    </script>
+{% endblock active_nav %}
+
+{% block extra_scripts%}
+  <script src="{% static 'js/demo-charts.js' %}"></script>
+
+    <script>
+
+        $(function () {
+          'use strict'
+
+          /* ChartJS
+           * -------
+           * Here we will create a few charts using ChartJS
+           */
+
+          //-----------------------
+          // - MONTHLY SALES CHART -
+          //-----------------------
+
+          // Get context with jQuery - using jQuery's .get() method.
+          var salesChartCanvas = $('#salesChart').get(0).getContext('2d')
+
+          var salesChartData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [
+              {
+                label: 'Digital Goods',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [28, 48, 40, 19, 86, 27, 90]
+              }
+            ]
+          }
+
+          var salesChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                gridLines: {
+                  display: false
+                }
+              }],
+              yAxes: [{
+                gridLines: {
+                  display: false
+                }
+              }]
+            }
+          }
+
+          // This will get the first returned node in the jQuery collection.
+          // eslint-disable-next-line no-unused-vars
+          var salesChart = new Chart(salesChartCanvas, {
+            type: 'line',
+            data: salesChartData,
+            options: salesChartOptions
+        })
+    </script>
+{% endblock %}

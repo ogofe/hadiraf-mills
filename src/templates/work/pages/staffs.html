@@ -1,0 +1,58 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="p-2 m-t-10 mb-3">
+        <a href="{% url 'work:add-staff' %}" class="btn btn-dark"> 
+            <i class="nav-icon fas fa-plus"></i> Add Staff
+        </a>
+    </div>
+        
+        
+    <div class="container-fluid p-3">
+        <div class="row">
+            {% for staff in accounts %}
+                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill">
+                        
+                        <div class="card-header text-dark border-bottom-0">
+                            {{staff.role}}
+                        </div>
+
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="lead"><b>{{ staff.name }}</b></h2>
+                                    <p class="lead small"><b>{{ staff.staff_id }}</b></p>
+                                </div>
+
+                                <div class="col-5 text-center">
+                                {% if staff.is_male %}
+                                    <img src="{% static 'img/avatar.png' %}" alt="staff-avatar" class="img-circle img-fluid">
+                                {% elif staff.is_female %}
+                                    <img src="{% static 'img/avatar3.png' %}" alt="staff-avatar" class="img-circle img-fluid">
+                                {% endif %}
+                                </div>
+                               
+                                <ul class="ml-4 mb-0 fa-ul text-dark">
+                                    <li class="small mt-1"><span class="fa-li"><i class="fas fa-lg fa-envelope-open"></i></span> Email: {{staff.email}}</li>
+                                    <li class="small mt-1"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: {{ staff.phone_number }}</li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+{% block active_nav %}
+    <script>
+        document.getElementById('nav-staff').classList.add('active')
+    </script>
+{% endblock active_nav %}

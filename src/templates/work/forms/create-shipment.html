@@ -1,0 +1,150 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+    
+{% endblock extra_head %}
+
+
+{% block content %}
+<div class="p-2">
+    <a href="{% url 'work:shipments' %}" class="btn btn-dark"> <i class="fas fa-angle-left"></i> Back </a>
+</div>
+
+
+<!-- Shipments Form-->
+<div class="">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Add Shipment Record</h3>
+        </div>
+
+        <div class="card-body">
+            <form method="post" class="row" id="shipment-form">
+            {% csrf_token %}
+
+            <div class="form-group col-md-6">
+                <label for="inputStatus">Date Received</label>
+                <div class="input-group date" id="datepicker" data-target-input="nearest">
+                  <input name="date" required="" type="text" class="form-control datetimepicker-input" data-target="#datepicker"/>
+                  <div class="input-group-append" data-target="#datepicker" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+            </div>
+            
+            <div class="form-group col-md-6">
+              <label for="inputStatus">Time Received</label>
+              <div class="input-group date" id="timepicker" data-target-input="nearest">
+                <input required="" name="time" class="form-control datetimepicker-input" data-target="#timepicker"/>
+                <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-12">
+                <label for="inputClientCompany">Company Name</label>
+                <input name="from" type="text" id="inputClientCompany" class="form-control">
+            </div>
+
+            <div class="form-group col-12">
+                <label class="d-flex justify-content-between" for="inputName">
+                    <span>Items Received</span>
+
+                    <a onclick="showAdder('stockAdder')" class="btn btn-sm pt-0 ">
+                        <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
+                        </svg>
+                    </a>   
+                </label>
+
+                <!-- Form Adder -->
+                <div class="adder-wrapper d-block" id="stockAdder" >
+                    <div class="adder form-group row ml-0 mr-0 border rounded-0 card-body">
+                        <div class="form-group col-md-6">
+
+                            <label> Resource Name </label>
+                            <div id="select-list" class=" mb-1" data-select2-id="1">
+                              <select id="prod-name" name="item" class="form-control select2" style="width: 100%">
+                                  <option disabled="true" class="p-2 disabled" selected=""> Select From List</option>
+                                  {% for item in stock %}
+                                    <option class="p-2"> {{ item.name }} </option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+
+                            <div id="type-name" class="d-none">
+                              <input name="item-name" class="form-control mb-1" id="prod-name" placeholder="Type name here" type="text">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label> Quantity </label>
+                            <input name="qty" class="form-control mb-2" id="prod-qty" type="number">
+                        </div>
+
+                        <div class="">
+                            <button type="button" class="btn btn-danger" 
+                            onclick="addItemToList('shipment-form', 'prod-list',
+                                                    'prod-name', 'prod-qty')"> Add Resource </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="prod-list" class="form-control listing p-2 ">
+
+                </div>
+            </div>
+
+            </form>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button form="shipment-form" class="btn btn-primary"  type="submit"> Save </button>
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+  <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+  <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+  <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+  <script src="{% static 'js/models.js' %}"></script>
+
+  <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+  <script type="text/javascript">
+      $('.select2').select2()
+      $('#timepicker').datetimepicker({
+        format: 'LT'
+      });
+      $('#datepicker').datetimepicker({
+        format: 'L'
+      });
+
+      function toggleName() {
+        let select = document.querySelector('#select-list');
+        let type = document.querySelector('#type-name');
+          $('.hiden').removeClass('d-none');
+          select.classList.add('d-none');
+          type.classList.remove('d-none');
+      }
+  </script>
+{% endblock extra_scripts %}
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-shipments').classList.add('active')
+</script>
+{% endblock active_nav %}

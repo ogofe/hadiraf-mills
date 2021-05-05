@@ -1,0 +1,71 @@
+{% extends 'work/base.html' %}
+
+{% block content %}
+
+<div class="p-2">
+    <a href="{% url 'work:add-product' %}" class="btn btn-dark"><i class="fas fa-plus"></i> New Product</a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+        <h3 class="card-title"> Hadiraf Range Of Products </h3>
+
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Available Stock</th>
+                <th>Online Sale</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for prod in products %}
+                <tr>
+                    <td> {{ prod.name }} </td>
+                    <td> ₦{{ prod.price }} </td>
+                    <td> x{{ prod.available_stock }} {{ prod.get_measurement_display }}s </td>
+                    <td class="text-center">
+                        {% if prod.online_sale %}
+                        <i class="fas fa-check"></i>
+                        {% else %}
+                        <i class="fas fa-times"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-products').classList.add('active')
+</script>
+{% endblock active_nav %}

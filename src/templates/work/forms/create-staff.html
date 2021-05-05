@@ -1,0 +1,123 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="p-2">
+    <a href="{% url 'work:staff' %}" class="btn btn-dark"> <i class="fas fa-angle-left"></i> Back </a>
+</div>
+
+
+  <form method="post">
+  {% csrf_token %}
+    <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Add a new staff account</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+          <form method="post">
+          {% csrf_token %}
+
+            <h5>Personal Information</h5>
+            <hr />
+            <div class="row mb-3" data-select2-id="50">
+                <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                    <label>First Name</label>
+                    <input name="first_name" required="true" type="text" class="form-control" />
+                </div>
+                
+                <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                    <label>Last Name</label>
+                    <input name="last_name" required="true" type="text" class="form-control" />
+                </div>
+
+                <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                    <label>Email</label>
+                    <input name="email" required="true" type="text" class="form-control" />
+                </div>
+
+                <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                    <label>Phone Number</label>
+                    <input name="phone" required="true" type="text" class="form-control" />
+                </div>
+            </div>
+
+
+            <h5>Employee Information</h5>
+            <hr />
+            <div class="row" data-select2-id="50">
+
+              <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                <label>Staff ID <span class="w-100 small text-muted text-right">
+                    <i class="nav-icon fas fa-autoprefixer"></i> Automatically generated </span>
+                </label>
+                <input type="text" aria-disabled="true" class="form-control fc-state-disabled" disabled="true" />
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group clearfix">
+                  <label class="w-100"> Gender </label>
+
+                  <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimary1" name="gender" value="F">
+                    <label for="radioPrimary1">Female</label>
+                  </div>
+
+                  <div class="icheck-primary ml-3 d-inline">
+                    <input type="radio" id="radioPrimary2" name="gender" value="M">
+                    <label for="radioPrimary2">Male</label>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6" data-select2-id="49">
+                <div class="form-group" data-select2-id="48">
+                  <label>Staff Role</label>
+                  <input name="role" required="true" type="text" class="form-control" />                 
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 mb-2" data-select2-id="50">
+                <div class="form-group">
+                    <label>Staff Permissions</label>
+                    <div class="select2-purple">
+                      <select name="perms" class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
+                        <option>Alabama</option>
+                        <option>Alaska</option>
+                        <option>California</option>
+                        <option>Delaware</option>
+                        <option>Tennessee</option>
+                        <option>Texas</option>
+                        <option>Washington</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn-primary">Save</button>
+          </div>
+
+          <p class="small text-muted mt-3 ml-4"> Default password is : 12345678 </p>
+        </div>
+        </form>
+{% endblock content %}
+
+
+{% block extra_scripts %}
+  <script src="{% static 'js/models.js' %}"></script>
+  <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+  <script type="text/javascript">
+      $('.select2').select2()
+  </script>
+{% endblock extra_scripts %}

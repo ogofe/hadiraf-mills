@@ -1,0 +1,188 @@
+{% extends 'work/base.html' %}
+
+{% load static %}
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="p-2">
+    <a href="{% url 'work:invoices' %}" class="btn btn-dark"> <i class="fas fa-angle-left"></i> Back </a>
+</div>
+
+<!-- Invoice Form -->
+    <div class="">
+        <div class="card card-warning">
+        <div class="card-header">
+            <h3 class="card-title">Add A New Invoice Record</h3>
+        </div>
+
+        <div class="card-body m-0">
+            <form method="post" class="row" id="invoice-form">
+            {% csrf_token %}
+            <div class="form-group col-md-6">
+                <label for="inputName">Customer's Name</label>
+                <input required="" name="customer-name" type="text" id="inputName" class="form-control">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputName">Customer's Phone number</label>
+                <input required="" name="customer-phone" type="tel" id="inputName" class="form-control">
+            </div>            
+
+            <div class="form-group col-md-6">
+                <label for="inputName">Customer's Email <small>[ optional ]</small> </label>
+                <input name="customer-email" type="email" id="inputName" class="form-control">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputStatus">Date Issued</label>
+                <div class="input-group date" id="datepicker" data-target-input="nearest">
+                  <input required="" name="date" required="" type="text" class="form-control datetimepicker-input" data-target="#datepicker"/>
+                  <div class="input-group-append" data-target="#datepicker" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6 mb-2 row ml-0 mr-0">
+                <div class="col-sm-6 mb-2">
+                    <div class="form-group clearfix">
+                      <label class="w-100"> Payment Status </label>
+
+                      <div class="icheck-primary d-inline">
+                        <input onclick="$('#pay-date').removeClass('d-none')" checked="true" type="radio" id="paid" name="paid" value="yes">
+                        <label for="paid">Paid</label>
+                      </div>
+
+                      <div class="icheck-primary ml-3 d-inline">
+                        <input onclick="$('#pay-date').addClass('d-none')" type="radio" id="not-paid" name="paid" value="no">
+                        <label for="not-paid">Not Paid</label>
+                      </div>
+
+                    </div>
+                </div>
+
+                <!-- Delivery -->
+                <div class="col-sm-6 mb-2">
+                    <div class="form-group clearfix">
+                      <label class="w-100"> Delivery </label>
+
+                      <div class="icheck-primary d-inline">
+                        <input onclick="$('#addr').removeClass('d-none')" type="radio" id="delivery-on" name="delivery" value="yes">
+                        <label for="delivery-on">Yes</label>
+                      </div>
+
+                      <div class="icheck-primary ml-3 d-inline">
+                        <input  onclick="$('#addr').addClass('d-none')" type="radio" checked="true"  id="delivery-off" name="delivery" value="no">
+                        <label for="delivery-off">No</label>
+                      </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="pay-date" class=" form-group col-md-6">
+                <label for="inputStatus">Date Paid</label>
+                <div class="input-group date" id="paid-datepicker" data-target-input="nearest">
+                  <input required="" name="date-paid" type="text" class="form-control datetimepicker-input" data-target="#paid-datepicker"/>
+                  <div class="input-group-append" data-target="#paid-datepicker" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="form-group col-12">
+                <label class="d-flex justify-content-between" for="inputName">
+                    <span>Items Bought</span>
+
+                    <a onclick="showAdder('prodAdder')" class="btn btn-sm pt-0 ">
+                        <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
+                        </svg>
+                    </a>   
+                </label>
+
+                <!-- Form Adder -->
+                <div class="adder-wrapper" id="prodAdder" >
+                    <div class="adder form-group row ml-0 mr-0 border rounded-0 card-body">
+                        <div class="form-group col-md-6">
+                            <label> Product </label>
+                            <select class="form-control select2" id="prod-name" style="width: 100%">
+                                {% for product in inventory %}
+                                    <option class="p-2"> {{ product.name }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label> Quantity </label>
+                            <input class="form-control" id="prod-qty" type="number">
+                        </div>
+
+                        <div class="">
+                            <button type="button" class="btn btn-primary" 
+                            onclick="addItemToList('invoice-form', 'prod-list',
+                                                    'prod-name', 'prod-qty')"> Save </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="prod-list" class="form-control listing p-2 ">
+
+                </div>
+            </div>
+
+            <div id="addr" class="form-group d-none fadeIn col-12">
+                <label for="inputStatus">Delivery Address</label>
+                <input name="delivery-address" type="text" class="form-control "/>                
+            </div>
+
+
+            </form>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button form="invoice-form" class="btn btn-primary"  type="submit"> Save </button>
+            <input type="submit" form="invoice-form" class="btn ml-3 btn-secondary" name="pay-ahead" value="Save and pay now" />
+        </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+  <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+  <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+  <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+  <script src="{% static 'js/models.js' %}"></script>
+
+  <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+  <script type="text/javascript">
+      $('.select2').select2()
+      $('#timepicker').datetimepicker({
+        format: 'LT'
+      });
+      $('#datepicker').datetimepicker({
+        format: 'L'
+      });
+      $('#paid-datepicker').datetimepicker({
+        format: 'L'
+      });
+  </script>
+{% endblock extra_scripts %}
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-invoices').classList.add('active')
+</script>
+{% endblock active_nav %}

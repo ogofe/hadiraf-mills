@@ -1,0 +1,131 @@
+{% extends 'work/base.html' %}
+{% load static %}
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .img-preview{
+            border-radius: 3px;
+            border: 1px solid brown;
+            margin-right: 15px;
+            padding: .5rem;
+            width: 140px;
+            height: 140px;
+        }
+        .img-preview .img{
+            width: 100%;
+            height: 100%;
+        }
+      .select2-container .select2-selection--single {
+        height: 38px !important;
+      }
+    </style>
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="p-2">
+    <a href="{% url 'work:resources' %}" class="btn btn-dark"> <i class="fas fa-angle-left"></i> Back </a>
+</div>
+
+<div class="">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Add a new resource entry</h3>    
+            </div>
+
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-sm-6 mb-2">
+                        <div class="form-group">
+                            <label for="inputName">Entry Name</label>
+                            <input name="name" type="text" id="inputName" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-2">
+                        <div class="form-group" data-select2-id="1">
+                            <label>Available Stock</label>
+                            <input type="number" name="stock" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-2">
+                        <div class="form-group" data-select2-id="1">
+                            <label>Weight in kg</label>
+                            <input step="0.01" type="number" name="weight" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-2">
+                        <div class="form-group" data-select2-id="1">
+                            <label>Measurement Unit</label>
+                            <select name="unit" class="form-control select2" style="width: 100%">
+                                <option class="p-2"> Bag </option>
+                                <option class="p-2"> Box / Carton </option>
+                                <option class="p-2"> Crate </option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group clearfix">
+                          <label class="w-100"> Is This Item Delivered In Shipments? </label>
+
+                          <div class="icheck-primary d-inline">
+                            <input checked type="radio" id="yes" name="shipment" value="yes">
+                            <label for="yes">Yes</label>
+                          </div>
+
+                          <div class="icheck-primary ml-3 d-inline">
+                            <input type="radio" id="no" name="shipment" value="no">
+                            <label for="no">No</label>
+                          </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-info"> Save </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+
+{% block extra_scripts %}
+    <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+    })
+
+    function preview(){
+        let img = event.target.files[0];
+        let url = URL.createObjectURL(img)
+        let view = document.querySelector('#img-view')
+        view.src = url
+    }
+    </script>
+
+{% endblock extra_scripts %}
+
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-resources').classList.add('active')
+</script>
+{% endblock active_nav %}

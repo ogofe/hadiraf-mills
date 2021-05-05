@@ -1,0 +1,52 @@
+{% extends 'work/base.html' %}
+
+{% block content %}
+
+<div class="p-2">
+    <a href="{% url 'work:add-resource' %}" class="btn btn-dark"><i class="fas fa-plus"></i> New Resource Entry</a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Resource Inventory</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+                <th> Name </th>
+                <th> Available Stock </th>
+                <th> Entry Date </th>
+                <th> Entry Time </th>
+            </tr>
+            </thead>
+
+            <tbody style="min-height: 200px !important;">
+                {% for item in inventory %}
+                <tr>
+                    <td> {{ item.name }} </td>
+                    <td> {{ item.quantity }} {{ item.unit }}s </td>
+                    <td> {{ item.date }} </td>
+                    <td> {{ item.time }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block active_nav %}
+<script>
+    document.getElementById('nav-resources').classList.add('active')
+</script>
+{% endblock active_nav %}

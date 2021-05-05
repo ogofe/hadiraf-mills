@@ -1,0 +1,177 @@
+{% load static %}
+<html lang="en">
+<head>
+<title>Hadiraf Farms</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="{% static 'layout/styles/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="{% static 'layout/styles/styles.css' %}" rel="stylesheet" type="text/css" media="all">
+<style>
+  .bg-20{
+    background-color: #214b4a;
+  }
+
+  textarea{
+    height: 180px;
+  }
+</style>
+</head>
+
+<body id="top">
+<div class="wrapper row1">
+  <header id="header" class="hoc clear"> 
+    <div id="logo" class="fl_left">
+      <h6 class=""><a href="{% url 'core:home' %}">Hadiraf Farms</a></h6>
+    </div>
+
+    <nav id="mainav" class="fl_right">
+      <ul class="clear">
+        <li class="active"><a href="/#top">Home</a></li>
+        <li><a class="#about" href="#about">About us</a></li>
+        <li><a href="#contact">Contact us</a></li>
+        <li><a href="#faqs">Buy Here</a></li>
+        <li><a class="" href="{% url 'work:login' %}"> Staff Login </a></li>
+      </ul>
+    </nav>
+  </header>
+</div>
+
+<div class="wrapper bgded overlay" style="background-image:url('images/images/teamwork.jpg');">
+  <div id="pageintro" class="hoc clear"> 
+    <article>
+      <p class="heading">Providing High Quality Nutrition.</p>
+      <footer><a class="btn" href="#about">Learn More</a></footer>
+    </article>
+  </div>
+</div>
+
+<div class="wrapper row2">
+  <section class="hoc container clear"> 
+    <div class="sectiontitle">
+      <h6 class="heading">The Plan - Laid out</h6>
+      <p>Here's what we wanna achieve and how we wanna get it.</p>
+    </div>
+    <ul class="nospace group services">
+      <li class="one_third first">
+        <article class="infobox">
+          <h6 class="heading"><i class="fa fa-balance-scale"></i> <a href="#">Equal Opportunities</a></h6>
+          <p>Breaching the financial gap by providing equal opportunities  [&hellip;]</p>
+        </article>
+      </li>
+
+      <li class="one_third">
+        <article class="infobox">
+          <h6 class="heading"><i class="fa fa-medium"></i> <a href="#">Media Influencing</a></h6>
+          <p>Using powerful tools to deliver content to the right market niche is to ensure a steady growth [&hellip;]</p>
+        </article>
+      </li>
+
+      <li class="one_third">
+        <article class="infobox">
+          <h6 class="heading"><i class="fa fa-motorcycle"></i> <a href="#">Fast Track Development</a></h6>
+          <p>We aim to empower small business and startups with funds and tools to help national development - reaching <strong>1,200,000</strong> individuals. [&hellip;]</p>
+        </article>
+      </li>
+
+      <li class="one_third first">
+        <article class="infobox">
+          <h6 class="heading"><i class="fa fa-paperclip"></i> <a href="#">Strategic Linking</a></h6>
+          <p>Connecting people and product when they need it and letting them find the right distributors [&hellip;]</p>
+        </article>
+      </li>
+
+      <li class="one_third">
+        <article class="infobox">
+          <h6 class="heading"><i class="fa fa-braille"></i> <a href="#">Creating Clusters</a></h6>
+          <p>We aim to create a stronger entrepreneural body by networking our candidates. [&hellip;]</p>
+        </article>
+      </li>
+
+    </ul>
+    <div class="clear"></div>
+  </section>
+</div>
+
+<div class="modal d-none">
+  <button class="close" onclick="document.querySelector('.modal').classList.add('d-none')">&times;</button>
+  <p class="small"> This programme hasn't been reusmed. <br /> Check back later </p>
+</div>
+
+<div class="wrapper bgded" style="background-image:url('images/images/Female-Empowerment.jpg');">
+  <div class="hoc split clear">
+    <section> 
+      <h2 class="heading">See how we help women empowerment programmes</h2>
+      <p>We believe in the women of our community, having shown great resillience and promise, we are committed to helping women grow.</p>
+      <ul class="nospace">
+        <li><i class="fa fa-check-circle"></i> Seminars that impact and connect women together </li>
+        <li><i class="fa fa-check-circle"></i> Providing environments for successful business ideas </li>
+      </ul>
+      <p class="btmspace-30">To learn more and register for WEMP click below.</p>
+      <footer><a class="btn" onclick="document.querySelector('.modal').classList.remove('d-none');
+        event.target.blur()">View Details &raquo;</a></footer>
+    </section>
+  </div>
+</div>
+
+<div id="contact" class="wrapper row4">
+  <footer id="footer" class="hoc clear"> 
+    <div class="one_third first mr-3">
+      <h6 class="heading">Contact</h6>
+      <ul class="nospace btmspace-30 linklist contact">
+        <li><i class="fa fa-map-marker"></i>
+          <address>
+          Avian Street &amp; Green Lake City, Seattle.
+          </address>
+        </li>
+        <li><i class="fa fa-phone"></i> +1 (553) 456 7890</li>
+        <li><i class="fa fa-envelope-o"></i> info@ssdf.org</li>
+      </ul>
+      <ul class="faico clear">
+        <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+        <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+      </ul>
+    </div>
+   
+    <div class="">
+      <h6 class="heading">Send Us A Message</h6>
+      <p class="nospace btmspace-30">Have a question or Enquiry. We'd love to hear from you!</p>
+      <form method="post" id="letter">
+      {% csrf_token %}
+        <fieldset>
+          <input id="letter-name" class="btmspace-15" type="text" value="" placeholder="Name">
+          <input id="letter-email" class="btmspace-15" type="email" value="" placeholder="Email">
+          <textarea class="text-black border-0 p-2 btmspace-15 w-100 bg-20" placeholder="Message" ></textarea>
+          <button type="submit" value="submit">Submit</button>
+        </fieldset>
+      </form>
+    </div>
+  </footer>
+</div>
+
+<div class="wrapper row row5">
+  <div id="copyright" class="hoc clear"> 
+    <p class="fl_left">Copyright &copy; 2021 - All Rights Reserved - <a href="#top">Hadiraf Farms</a></p>
+  </div>
+
+</div>
+
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+<!-- JAVASCRIPTS -->
+<script>
+  caches.open('landing')
+  .then(cache => {
+    cache.add('/src/templates/core/homepage.html')
+  })
+
+
+
+</script>
+<script src="layout/scripts/jquery.min.js"></script>
+<script src="layout/scripts/jquery.backtotop.js"></script>
+<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="scripts/actions.js"></script>
+</body>
+</html>
